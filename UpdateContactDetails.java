@@ -1,0 +1,96 @@
+package com.socialnet.actions;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.http.HttpSession;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.socialnet.bean.UserBean;
+import com.socialnet.dao.UserDAO;
+
+public class UpdateContactDetails extends HttpServlet {
+
+	/**
+	 * Destruction of the servlet. <br>
+	 */
+	public void destroy() {
+		super.destroy(); // Just puts "destroy" string in log
+		// Put your code here
+	}
+
+
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		boolean flag=false;
+	  
+	    UserBean ubean=new UserBean();
+	    UserDAO ud=new UserDAO();	    	
+	    
+	    String auser=request.getParameter("auser");
+	    ubean.setUserid(request.getParameter("auser"));
+	    
+	    ubean.setFirstname(request.getParameter("firstname"));
+	    ubean.setMidlename(request.getParameter("midlename"));
+	    ubean.setLastname(request.getParameter("lastname"));
+	    ubean.setDob(request.getParameter("dob"));
+	    System.out.println("in updatedetails:dob:"+request.getParameter("dob"));
+	    ubean.setSex(request.getParameter("gender"));
+	    System.out.println("in updatedetails:gendr:"+request.getParameter("gender"));
+	    ubean.setMobile(request.getParameter("mobile"));
+	    ubean.setMail(request.getParameter("mail"));
+	    ubean.setVillage(request.getParameter("village"));
+	    ubean.setCity(request.getParameter("city"));
+	    ubean.setState(request.getParameter("state"));
+	    ubean.setCountry(request.getParameter("country"));
+	    ubean.setPin(request.getParameter("pin"));
+	    
+	    
+	    flag=ud.updateUserContacts(ubean);
+	    if(flag)
+	    {
+      	response.sendRedirect("ContactDetails.jsp?status=Updation Successfull&auser="+auser);
+	    }
+	    else{
+	    	
+	    	response.sendRedirect("ContactDetails.jsp?status=Sorry Updation Failed&auser="+auser);
+	    }
+		out.flush();
+		out.close();
+	}
+
+	/**
+	 * The doPost method of the servlet. <br>
+	 *
+	 * This method is called when a form has its tag value method equals to post.
+	 * 
+	 * @param request the request send by the client to the server
+	 * @param response the response send by the server to the client
+	 * @throws ServletException if an error occurred
+	 * @throws IOException if an error occurred
+	 */
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+	
+		out.flush();
+		out.close();
+	}
+
+	/**
+	 * Initialization of the servlet. <br>
+	 *
+	 * @throws ServletException if an error occurs
+	 */
+	public void init() throws ServletException {
+		// Put your code here
+	}
+
+}
